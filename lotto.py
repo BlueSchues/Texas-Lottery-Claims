@@ -11,10 +11,10 @@ df = pd.read_csv('https://www.texaslottery.com/export/sites/' \
                  usecols=lambda x: x != 'Game Close Date',
                  skipinitialspace=True)
 
-# Excluding Total column, as data is redundant as well as break-even
+# Excluding Total column, converting to int, and converting claimed to int
 df = df[df['Prize Level'] != 'TOTAL']
 df['Prize Level'] = pd.to_numeric(df['Prize Level'])
-df = df[df['Prize Level'] != df['Ticket Price']]
+df['Prizes Claimed'] = df['Prizes Claimed'].fillna(0).astype(int)
 
 # Setting index to better organize data
 df = df.set_index(['Game Number', 'Prize Level'])
